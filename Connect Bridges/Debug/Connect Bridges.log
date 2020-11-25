@@ -1,0 +1,8 @@
+﻿  Connect Bridges.cpp
+f:\connect bridges\connect bridges\connect bridges.cpp(430): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+f:\connect bridges\connect bridges\connect bridges.cpp(543): warning C4018: '<': signed/unsigned mismatch
+f:\connect bridges\connect bridges\connect bridges.cpp(714): warning C4018: '<': signed/unsigned mismatch
+f:\connect bridges\connect bridges\connect bridges.cpp(748): warning C4715: 'bfs': not all control paths return a value
+f:\connect bridges\connect bridges\connect bridges.cpp(771): warning C4715: 'Dfs': not all control paths return a value
+  Connect Bridges.vcxproj -> F:\Connect Bridges\Debug\Connect Bridges.exe
+  Connect Bridges.vcxproj -> F:\Connect Bridges\Debug\Connect Bridges.pdb (Full PDB)

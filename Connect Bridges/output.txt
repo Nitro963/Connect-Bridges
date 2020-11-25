@@ -1,0 +1,52 @@
+#pragma region Graph
+//O(B Log B) with an upper bound of O(N Log N)
+void generateEdges(piece* p) {
+	for (auto x : adj[p->color])
+		adj[x].erase(p->color);
+	adj[p->color].clear();
+	for (int dir = 0; dir < 4; dir++)
+		for (auto idx : bounds[dir][p->color]) {
+			cell c = cells[p->color][idx].dirNeighbour(dir) + p->shifts;
+			if (cell::valid(c, n, m) && grid[c.F][c.S] == p->getChar() && color[c.F][c.S] != p->color)
+				adj[p->color].insert(color[c.F][c.S]), adj[color[c.F][c.S]].insert(p->color);
+		}
+}
+
+//O(S + B * Log B)
+void updateGraphAndPush(state& currentState, piece* p, const pii& newShifts) {
+	updateGridAndPush(currentState, p, newShifts);
+	if (p->getChar() == bridge::CHAR)
+		generateEdges(currentState[p->color]);
+}
+
+//O(S + B * Log B)
+void popMoveAndUpdateGraph(state& currentState) {
+	piece* p = playStack.back();
+	playStack.pop_back();
+	updateGrid(currentState[p->color], p->shifts);
+	if (p->getChar() == bridge::CHAR)
+		generateEdges(p);
+	currentState[p->color] = p;
+}
+
+//O(K * Log(S) + E) with an upper bound of O(N * M)
+bool graphDfs(int x, const state& currentState) {
+	vis[x] = true;
+
+	bool lastCell = false;
+
+	auto it = lower_bound(cells[x].begin(), cells[x].end(), cell(n - 1 - currentState[x]->shifts.F, -1));
+	if (it != cells[x].end())
+		lastCell = ((it->F + currentState[x]->shifts.F) == n - 1);
+
+	if (lastCell)
+		return true;
+
+	for (auto nx : adj[x])
+		if (!vis[nx])
+			if (graphDfs(nx, currentState))
+				return true;
+
+	return false;
+}
+#pragma endregion Graph
